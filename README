@@ -1,0 +1,13 @@
+1. Client-
+cd client
+npm install
+npm run dev
+
+2. Server-
+cd client
+npm install
+node server.js
+
+===============
+Server DB is mongoDb. Needs to be installed
+Client has simple functionality. For future reference
