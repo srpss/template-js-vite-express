@@ -23,24 +23,20 @@ const testSchema = new mongoose.Schema({
 
 const Test = mongoose.model('Test', testSchema);
 
-createTest()
 async function createTest(){
   const silence = new Test({ name: 'Silence' });
   await silence.save();
   console.log(silence.name); // 'Silence'
 }
 
-
-
-find().catch(err => console.log(err));
-
 async function find(){
   const result = await Test.find({ name: /^Silence/ });
   console.log(result)
 }
 
-
-
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
+
+
+// find().catch(err => console.log(err));
