@@ -1,5 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose');
+const { User } = require('./Schemas/userSchema');
+const { Record } = require('./Schemas/recordSchema');
 
 
 const app = express()
@@ -8,7 +10,15 @@ const SITE_DB_NAME ='SITE'
 
 app.use(express.static('public'))
 
-app.get('/ui', (req, res) => {
+app.get('/api/records/:page', (req, res) => {
+
+})
+
+app.post('/api/auth', (req, res) => {
+})
+
+app.post('/api/register', (req, res) => {
+ 
 })
 
 main().catch(err => console.log(err));
