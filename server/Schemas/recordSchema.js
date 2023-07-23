@@ -1,12 +1,13 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose')
 const { Schema } = mongoose;
 
 const recordSchema = new Schema({
-  title: {String, required: true, unique: true}, // String is shorthand for {type: String}
-  author: {String ,required: true},
-  body: {String ,required: true},
+  title: {type: String, required: true, unique: true}, // String is shorthand for {type: String}
+  author: {type: String ,required: true},
+  body: {type: String ,required: true},
   comments: [{ body: String, author: String, date: Date }],
   date: { type: Date, default: Date.now }
 });
 
-export const Record = mongoose.model('Record', recordSchema);
+const Record = mongoose.model('Record', recordSchema);
+module.exports = Record;
