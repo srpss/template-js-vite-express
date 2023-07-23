@@ -9,5 +9,5 @@ const recordSchema = new Schema({
   date: { type: Date, default: Date.now }
 });
 
-const Record = mongoose.model('Record', recordSchema);
-module.exports = Record;
+const Record = mongoose.model("Record", recordSchema);
+module.exports = {Record};

@@ -4,19 +4,30 @@ const mongoose = require('mongoose');
 const { User } = require('./Schemas/userSchema');
 const { Record } = require('./Schemas/recordSchema');
 
-
 const app = express()
 const port = 3000
 const SITE_DB_NAME ='SITE'
-app.use(cors())
 
+app.use(cors())
+app.use(express.json());
 app.use(express.static('public'))
 
 app.get('/api/records/:page', (req, res) => {
 
 })
 
-app.post('/api/records', (req, res) => {
+app.post('/api/records', async (req, res) => {
+  try {
+    const record = new Record({ title: req.body.title, author: req.body.author,body: req.body.body});
+    await record.save();
+  } catch (error) {
+    res.send(error)
+  }
+  res.status(200).send()
+})
+
+app.delete('/api/records', (req, res) => {
+  console.log(req.body)
 res.send(req.body)
 })
 

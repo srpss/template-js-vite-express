@@ -11,3 +11,9 @@ node server.js
 ===============
 Server DB is mongoDb. Needs to be installed
 Client has simple functionality. For future reference
+
+
+
+======Issues
+in case you cannot run nodemon-  
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
