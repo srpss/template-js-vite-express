@@ -1,6 +1,8 @@
 const express = require('express')
 
+
 const cors = require('cors')
+
 
 const mongoose = require('mongoose');
 const { User } = require('./Schemas/userSchema');
@@ -14,13 +16,11 @@ const SITE_DB_NAME ='SITE'
 app.use(express.static('public'))
 
 app.get('/api/records/:page', (req, res) => {
+
 })
 
 app.use(cors())
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
 
 app.post('/defects', (req, res) => {
   res.send('Hello World!')
