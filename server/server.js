@@ -12,23 +12,33 @@ app.use(cors())
 app.use(express.json());
 app.use(express.static('public'))
 
-app.get('/api/records/:page', (req, res) => {
-
+app.get('/api/records/:page', async (req, res) => {
+  try {
+    const records = await Record.count();
+    res.status(200).send(records)
+  } catch (error) {
+    res.status(501).send(error)
+  }
 })
 
 app.post('/api/records', async (req, res) => {
   try {
     const record = new Record({ title: req.body.title, author: req.body.author,body: req.body.body});
     await record.save();
+    res.status(200).send()
   } catch (error) {
-    res.send(error)
+    res.status(501).send(error)
   }
-  res.status(200).send()
 })
 
-app.delete('/api/records', (req, res) => {
-  console.log(req.body)
-res.send(req.body)
+app.delete('/api/records', async (req, res) => {
+  try {
+    const recordForDelete = await Test.deleteOne({ name: req.body.id });
+    res.status(200).send()
+  } catch (error) {
+    res.status(501).send(error)
+  }
+
 })
 
 
