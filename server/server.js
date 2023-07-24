@@ -8,6 +8,7 @@ const app = express()
 const port = 3000
 const SITE_DB_NAME ='SITE'
 const RECORDS_PER_PAGE = 10
+const MAX_RECORDS = 20
 
 app.use(cors())
 app.use(express.json());
@@ -38,8 +39,13 @@ app.get('/api/records/:page', async (req, res) => {
 
 app.post('/api/records', async (req, res) => {
   try {
+    
     const record = new Record({ title: req.body.title, author: req.body.author,body: req.body.body});
     await record.save();
+    const records = await Record.count();
+    if(records > MAX_RECORDS){
+      Record.deleteOne();
+    }
     res.status(200).send()
   } catch (error) {
    
@@ -63,10 +69,19 @@ app.delete('/api/records', async (req, res) => {
 
 
 app.post('/api/auth', (req, res) => {
+
 })
 
-app.post('/api/register', (req, res) => {
- 
+app.post('/api/register', async (req, res) => {
+  try {
+    const user = new User({name: req.body.name, password: req.body.password})
+    await record.save();
+    res.status(200).send()
+
+  } catch (error) {
+    res.status(501).send(error)
+  }
+  
 })
 
 main().catch(err => console.log(err));
