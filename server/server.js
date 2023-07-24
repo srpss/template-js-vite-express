@@ -43,7 +43,7 @@ app.post('/api/records', async (req, res) => {
     const record = new Record({ title: req.body.title, author: req.body.author, body: req.body.body });
     await record.save();
     const records = await Record.count();
-    console.log(records)
+   
     if (records > MAX_RECORDS) {
 
       Record
