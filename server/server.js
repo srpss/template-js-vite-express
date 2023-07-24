@@ -24,8 +24,7 @@ app.get('/api/records/:page', async (req, res) => {
     if (typeof (page) != "number"){
       page = 1;
     }
-    console.log(page * RECORDS_PER_PAGE - RECORDS_PER_PAGE)
-    console.log(page * RECORDS_PER_PAGE)
+    
     const records = await Record.find() 
       .sort({date: -1})
       .skip(page * RECORDS_PER_PAGE - RECORDS_PER_PAGE)// Starting Row
@@ -51,7 +50,10 @@ app.post('/api/records', async (req, res) => {
 
 app.delete('/api/records', async (req, res) => {
   try {
-    const recordForDelete = await Test.deleteOne({ name: req.body.id });
+    
+    const recordForDelete = await Record.deleteOne({ title: req.body.title }).then((result) => {
+      //console.log(result); example
+  });
     res.status(200).send()
   } catch (error) {
     res.status(501).send(error)
