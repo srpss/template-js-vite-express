@@ -7,6 +7,7 @@ const { Record } = require('./Schemas/recordSchema');
 const app = express()
 const port = 3000
 const SITE_DB_NAME ='SITE'
+const RECORDS_PER_PAGE = 10
 
 app.use(cors())
 app.use(express.json());
@@ -14,8 +15,23 @@ app.use(express.static('public'))
 
 app.get('/api/records/:page', async (req, res) => {
   try {
-    const records = await Record.count();
-    res.status(200).send(records)
+  
+    const countOfRecords = await Record.count();
+    const numberOfPages = Math.ceil(countOfRecords/ RECORDS_PER_PAGE)
+    const page = Number(req.params.page);
+    
+   
+    if (typeof (page) != "number"){
+      page = 1;
+    }
+    console.log(page * RECORDS_PER_PAGE - RECORDS_PER_PAGE)
+    console.log(page * RECORDS_PER_PAGE)
+    const records = await Record.find() 
+      .sort({date: -1})
+      .skip(page * RECORDS_PER_PAGE - RECORDS_PER_PAGE)// Starting Row
+      .limit(page * RECORDS_PER_PAGE) // Ending Row
+ 
+    res.status(200).send({records,countOfRecords, numberOfPages })
   } catch (error) {
     res.status(501).send(error)
   }
@@ -27,8 +43,10 @@ app.post('/api/records', async (req, res) => {
     await record.save();
     res.status(200).send()
   } catch (error) {
+   
     res.status(501).send(error)
   }
+ 
 })
 
 app.delete('/api/records', async (req, res) => {
