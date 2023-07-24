@@ -72,14 +72,25 @@ app.delete('/api/records', async (req, res) => {
 })
 
 
-app.post('/api/auth', (req, res) => {
+app.post('/api/auth', async (req, res) => {
+  try {
+    const user =  User.find({name: req.body.name, password: req.body.password})
+    .then((result) => {console.log(result)});
+    
+    res.status(200).send()
 
+  } catch (error) {
+    res.status(501).send(error)
+  }
 })
 
 app.post('/api/register', async (req, res) => {
   try {
-    const user = new User({name: req.body.name, password: req.body.password})
-    await record.save();
+   
+    const user = new User({name: req.body.name, password: req.body.password});
+   
+    await user.save();
+   
     res.status(200).send()
 
   } catch (error) {
