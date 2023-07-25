@@ -25,6 +25,52 @@ const checkAuth = function (req, res, next) {
   }
 }
 
+const checkAdminPermissions = async function(req, res, next){
+  try {
+    if(req.headers["auth"] == undefined && req.headers["auth"][-1] == "+"){
+      res.status(403).send()
+    }
+    let user = req.headers["auth"].substring(0, req.headers["auth"].length-1)
+    let checkUser = User.findOne({name: user})
+    if(checkUser.role == "admin"){
+      next();
+    } else {
+      res.status(403).send();
+    }
+
+  } catch (error) {
+    res.status(501).send(error)
+  }
+}
+
+const checkPermisions = async function (req, res, next) {
+  try {
+    if(req.headers["auth"] == undefined && req.headers["auth"][-1] == "+"){
+      res.status(403).send()
+    }
+    let user = req.headers["auth"].substring(0, req.headers["auth"].length-1)
+    let checkUser = User.findOne({name: user})
+    if(checkUser.role == "admin"){
+      next()
+    }
+
+    const record = await Record.findOne({ title: req.body.title });
+  
+    let resHeader = req.headers["auth"];
+    let header = resHeader.substring(0, resHeader.length - 1)
+   
+    if(record.author == header){
+      next()
+    }
+    else{
+      res.status(403).send()
+    }
+  } catch (error) {
+    res.status(501).send(error)
+  }
+}
+
+
 app.get('/api/records/:page', async (req, res) => {
   try {
 
@@ -71,21 +117,10 @@ app.post('/api/records', checkAuth, async (req, res) => {
 
 })
 
-app.delete('/api/records', checkAuth, async (req, res) => {
+app.delete('/api/records', checkAuth, checkPermisions, async (req, res) => {
   try {
-    const record = await Record.findOne({ title: req.body.title });
-    console.log(record)
-    let resHeader = req.headers["auth"];
-    let header = resHeader.substring(0, resHeader.length - 1)
-    console.log(header)
-    if(record.author == header){
-    const recordForDelete = await Record.deleteOne({ title: req.body.title }).then((result) => {
-      //console.log(result); example
-    });
+    const recordForDelete = await Record.deleteOne({ title: req.body.title })
     res.status(200).send()
-  } else {
-    res.status(403).send()
-  }
   } catch (error) {
     res.status(501).send(error)
   }
@@ -98,7 +133,7 @@ app.post('/api/auth', async (req, res) => {
     const user = await User.findOne({ name: req.body.name })
     if (user != null) {
       if (user.password == req.body.password) {
-        res.status(200).send(user.name + "+")
+        res.status(200).send(user.name + "+", user.role)
       }
       else {
         res.status(401).send()
@@ -125,6 +160,15 @@ app.post('/api/register', async (req, res) => {
     res.status(501).send(error)
   }
 
+})
+
+app.get('/site-api/users', checkAdminPermissions, async (req,res)=>{
+ try {
+ const getAllUsers = User.find();
+ res.status(200).send(getAllUsers)
+ } catch (error) {
+  res.status(501).send()
+ } 
 })
 
 main().catch(err => console.log(err));
