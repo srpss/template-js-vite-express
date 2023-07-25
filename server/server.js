@@ -74,6 +74,14 @@ const checkPermisions = async function (req, res, next) {
   }
 }
 
+app.get('/ui', async (req, res) => {
+  try {
+    res.status(200).send("<html></html>")
+  } catch (error) {
+    res.status(501).send(error)
+  }
+})
+
 app.get('/api/records/:page', async (req, res) => {
   try {
 
