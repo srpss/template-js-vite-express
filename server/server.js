@@ -14,6 +14,17 @@ app.use(cors())
 app.use(express.json());
 app.use(express.static('public'))
 
+const checkAuth = function (req, res, next) {
+  try {
+    if(req.headers["auth"] == undefined){
+      res.status(403).send()
+    }
+    next()
+  } catch (error) {
+    res.status(501).send(error)
+  }
+}
+
 app.get('/api/records/:page', async (req, res) => {
   try {
 
@@ -37,7 +48,7 @@ app.get('/api/records/:page', async (req, res) => {
   }
 })
 
-app.post('/api/records', async (req, res) => {
+app.post('/api/records', checkAuth, async (req, res) => {
   try {
 
     const record = new Record({ title: req.body.title, author: req.body.author, body: req.body.body });
@@ -47,8 +58,9 @@ app.post('/api/records', async (req, res) => {
     if (records > MAX_RECORDS) {
 
       Record
-        .deleteOne().then((result) => {
-          console.log(result)
+        .deleteOne()
+        .then((result) => {
+         // console.log(result)
         });
     }
     res.status(200).send()
@@ -59,7 +71,7 @@ app.post('/api/records', async (req, res) => {
 
 })
 
-app.delete('/api/records', async (req, res) => {
+app.delete('/api/records', checkAuth, async (req, res) => {
   try {
 
     const recordForDelete = await Record.deleteOne({ title: req.body.title }).then((result) => {
