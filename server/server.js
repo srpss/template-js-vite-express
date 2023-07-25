@@ -27,14 +27,18 @@ const checkAuth = function (req, res, next) {
 
 const checkAdminPermissions = async function(req, res, next){
   try {
-    if(req.headers["auth"] == undefined && req.headers["auth"][-1] == "+"){
+
+    if(req.headers["auth"] == undefined || req.headers["auth"][req.headers["auth"].length-1] != '+' ){
       res.status(403).send()
     }
     let user = req.headers["auth"].substring(0, req.headers["auth"].length-1)
-    let checkUser = User.findOne({name: user})
+    let checkUser = await User.findOne({name: user})
+  
     if(checkUser.role == "admin"){
+      
       next();
     } else {
+     
       res.status(403).send();
     }
 
@@ -177,9 +181,9 @@ app.post('/api/register', async (req, res) => {
 
 })
 
-app.get('/site-api/users', checkAdminPermissions, async (req,res)=>{
+app.get('/site-api/users',checkAdminPermissions, async (req,res)=>{
  try {
- const getAllUsers = User.find();
+ const getAllUsers = await User.find();
  res.status(200).send(getAllUsers)
  } catch (error) {
   res.status(501).send()
