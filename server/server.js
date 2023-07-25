@@ -96,11 +96,10 @@ app.get('/api/records/:page', async (req, res) => {
 
 app.post('/api/records', checkAuth, async (req, res) => {
   try {
-
     const record = new Record({ title: req.body.title, author: req.body.author, body: req.body.body });
     await record.save();
     const records = await Record.count();
-   
+
     if (records > MAX_RECORDS) {
 
       Record
@@ -109,7 +108,7 @@ app.post('/api/records', checkAuth, async (req, res) => {
          // console.log(result)
         });
     }
-    res.status(200).send()
+    res.status(201).send()
   } catch (error) {
 
     res.status(501).send(error)
@@ -127,6 +126,22 @@ app.delete('/api/records', checkAuth, checkPermisions, async (req, res) => {
 
 })
 
+app.put('/api/records', checkAuth, async (req, res) => {
+  try {
+    const findRecord = await Record.findOneAndUpdate({title: req.body.title}, req.body, {
+      new: true
+    })
+    if(findRecord != null){
+      res.status(200).send(findRecord)
+    } else{
+      res.status(404).send()
+    }
+    
+  } catch (error) {
+    res.status(501).send(error)
+  }
+
+})
 
 app.post('/api/auth', async (req, res) => {
   try {
@@ -154,7 +169,7 @@ app.post('/api/register', async (req, res) => {
 
     await user.save();
 
-    res.status(200).send()
+    res.status(201).send()
 
   } catch (error) {
     res.status(501).send(error)
