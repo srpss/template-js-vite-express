@@ -74,7 +74,6 @@ const checkPermisions = async function (req, res, next) {
   }
 }
 
-
 app.get('/api/records/:page', async (req, res) => {
   try {
 
@@ -199,6 +198,5 @@ async function main() {
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
-
 
 // find().catch(err => console.log(err));
