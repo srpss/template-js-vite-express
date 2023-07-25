@@ -16,7 +16,7 @@ app.use(express.static('public'))
 
 const checkAuth = function (req, res, next) {
   try {
-    if(req.headers["auth"] == undefined){
+    if(req.headers["auth"] == undefined && req.headers["auth"][-1] == "+"){
       res.status(403).send()
     }
     next()
@@ -73,11 +73,19 @@ app.post('/api/records', checkAuth, async (req, res) => {
 
 app.delete('/api/records', checkAuth, async (req, res) => {
   try {
-
+    const record = await Record.findOne({ title: req.body.title });
+    console.log(record)
+    let resHeader = req.headers["auth"];
+    let header = resHeader.substring(0, resHeader.length - 1)
+    console.log(header)
+    if(record.author == header){
     const recordForDelete = await Record.deleteOne({ title: req.body.title }).then((result) => {
       //console.log(result); example
     });
     res.status(200).send()
+  } else {
+    res.status(403).send()
+  }
   } catch (error) {
     res.status(501).send(error)
   }
