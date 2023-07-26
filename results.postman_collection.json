@@ -1,0 +1,236 @@
+{
+	"info": {
+		"_postman_id": "f601ed81-dc98-46c3-bad8-317c230a429d",
+		"name": "results",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8045516",
+		"_collection_link": "https://planetary-moon-272563.postman.co/workspace/ALM-Octane-REST~de493b52-e956-4aac-b6f2-6f0c99220701/collection/8045516-f601ed81-dc98-46c3-bad8-317c230a429d?action=share&creator=8045516&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "create record",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "auth",
+						"value": "martin+",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"title\":\"record17\", \"author\":\"tes63\",\"body\":\"423424\"}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/records",
+					"host": [
+						"15",
+						"119",
+						"127",
+						"178"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"records"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update record",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "auth",
+						"value": "martin+",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"title\":\"record17\", \"author\":\"test123\",\"body\":\"some body3423424\"}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/records",
+					"host": [
+						"15",
+						"119",
+						"127",
+						"178"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"records"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get records",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/api/records/2",
+					"host": [
+						"15",
+						"119",
+						"127",
+						"178"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"records",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "site users",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "auth",
+						"value": "martin+",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:3000/site-api/users",
+					"host": [
+						"15",
+						"119",
+						"127",
+						"178"
+					],
+					"port": "3000",
+					"path": [
+						"site-api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete record",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "auth",
+						"value": "Martin1+",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"title\":\"record16\", \"author\":\"test123\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/records/",
+					"host": [
+						"15",
+						"119",
+						"127",
+						"178"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"records",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\":\"test\", \"password\": \"1\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/auth",
+					"host": [
+						"15",
+						"119",
+						"127",
+						"178"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"auth"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\":\"test\", \"password\": \"1\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/register",
+					"host": [
+						"15",
+						"119",
+						"127",
+						"178"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"register"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
